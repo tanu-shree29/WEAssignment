@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wikipedia-like Page</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #f4f4f9;
+        }
+
+        /* Sidebar (Table of Contents) */
+        .sidebar {
+            width: 300px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            color: #f4f4f9;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #e4e4e4;
+        }
+
+        .sidebar ul li a:hover {
+            color: #ddd;
+            text-decoration: underline;
+        }
+
+        /* Main content */
+        .content {
+            margin-left: 320px;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        section h1, section h2, section h3 {
+            cursor: pointer;
+            margin-top: 0;
+        }
+
+        /* Collapsible */
+        .collapsible-content {
+            display: none;
+            margin-left: 20px;
+        }
+
+        /* Styling for headings */
+        h1 {
+            font-size: 2em;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 1.75em;
+            color: #555;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #777;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar (Table of Contents) -->
+    <div class="sidebar">
+        <h2>Table of Contents</h2>
+        <ul id="toc"></ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+        <section id="early-life">
+            <h1>Early Life</h1>
+            <div class="collapsible-content">
+                <p>Details about my early life, education, and upbringing.</p>
+            </div>
+        </section>
+
+        <section id="career">
+            <h1>Career</h1>
+            <div class="collapsible-content">
+                <h2>First Job</h2>
+                <div class="collapsible-content">
+                    <p>Details about my first job experience, responsibilities, and learning.</p>
+                </div>
+
+                <h2>Second Job</h2>
+                <div class="collapsible-content">
+                    <h3>As Software Engineer</h3>
+                    <div class="collapsible-content">
+                        <p>Details about my experience working as a Software Engineer.</p>
+                    </div>
+
+                    <h3>As Product Manager</h3>
+                    <div class="collapsible-content">
+                        <p>Details about my experience as a Product Manager, leading projects and teams.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="achievements">
+            <h1>Achievements</h1>
+            <div class="collapsible-content">
+                <p>A list of awards, accomplishments, and certifications I've earned.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript for TOC and Collapsible sections -->
+    <script>
+        // Generate TOC dynamically
+        const toc = document.getElementById('toc');
+        document.querySelectorAll('h1, h2, h3').forEach(header => {
+            const level = header.tagName.toLowerCase().replace('h', ''); // Get level based on h1, h2, h3
+            const section = header.closest('section');
+            const id = section ? section.id : ''; // Get the section id
+            
+            // Create TOC list item based on heading level
+            const listItem = document.createElement('li');
+            listItem.classList.add(`toc-level-${level}`);
+
+            const link = document.createElement('a');
+            link.href = `#${id}`;
+            link.textContent = header.innerText;
+
+            listItem.appendChild(link);
+            toc.appendChild(listItem);
+        });
+
+        // Make sections collapsible
+        document.querySelectorAll('h1, h2, h3').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                if (content) {
+                    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+                }
+            });
+        });
+
+        // Expand all sections on page load
+        window.onload = function() {
+            document.querySelectorAll('.collapsible-content').forEach(content => {
+                content.style.display = 'block';
+            });
+        };
+    </script>
+
+</body>
+</html>
